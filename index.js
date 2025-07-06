@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const addRoutes = require('./src/routes/addRoutes');
+const coursesRoutes = require('./src/routes/coursesRoutes');
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('<h1>Привет с сервера!</h1>');
-});
+app.use(express.json());
+app.use('/add', addRoutes);
+app.use('/courses', coursesRoutes);
 
 const PORT = process.env.PORT || 3000;
 
