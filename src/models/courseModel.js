@@ -1,4 +1,17 @@
-let courses = [];
+let courses = [
+  {
+    id: '1751881413382',
+    title: 'Node2',
+    price: 15000,
+    img: 'sdasd',
+  },
+  {
+    id: '1751881436236',
+    title: 'Node1',
+    price: 15000,
+    img: 'sdasd',
+  },
+];
 
 class CoursesModel {
   constructor({ id, title, price, img }) {
