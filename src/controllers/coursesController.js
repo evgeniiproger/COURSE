@@ -1,37 +1,29 @@
 const coursesService = require('../services/coursesService');
 
-function getAll(req, res) {
+function getAll(req, res, next) {
   try {
     const allCourses = coursesService.getAllCourses();
     res.status(200).json({ allCourses });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 }
 
-function getById(req, res) {
+function getById(req, res, next) {
   try {
-    const { id } = req.params;
-    const course = coursesService.getCourse(id);
-
-    if (!course) {
-      return res
-        .status(404)
-        .json({ message: `Course with id ${id} not found` });
-    }
-
+    const course = coursesService.getCourse(req.params.id);
     res.status(200).json({ course });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 }
 
-function addNew(req, res) {
+function addNew(req, res, next) {
   try {
     const newCourse = coursesService.addCourse(req.body);
     res.status(201).json({ newCourse });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 }
 

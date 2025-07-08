@@ -1,15 +1,15 @@
 let courses = [
   {
     id: '1751881413382',
-    title: 'Node2',
+    title: 'NodeJS',
     price: 15000,
-    img: 'sdasd',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg',
   },
   {
     id: '1751881436236',
-    title: 'Node1',
-    price: 15000,
-    img: 'sdasd',
+    title: 'TypeScript',
+    price: 20000,
+    img: 'https://api.plusinfosys.com/public/technology/14/typescriptlogo.png',
   },
 ];
 
