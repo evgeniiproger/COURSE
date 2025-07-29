@@ -96,4 +96,9 @@ router.get('/', coursesController.getAll);
  */
 router.get('/:id', coursesController.getById);
 
+router.get('/:id/edit', coursesController.getById);
+
+router.post('/edit', coursesController.edit);
+// router.post('/delete', coursesController.deleteCourse);
+
 module.exports = router;

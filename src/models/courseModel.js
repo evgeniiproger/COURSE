@@ -1,36 +1,44 @@
-let courses = [
-  {
-    id: '1751881413382',
-    title: 'NodeJS',
-    price: 15000,
-    img: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg',
-  },
-  {
-    id: '1751881436236',
-    title: 'TypeScript',
-    price: 20000,
-    img: 'https://api.plusinfosys.com/public/technology/14/typescriptlogo.png',
-  },
-];
+const pool = require('../config/db');
 
 class CoursesModel {
-  constructor({ id, title, price, img }) {
+  constructor({ id, title, price, img, userId }) {
     this.id = id;
     this.title = title;
     this.price = price;
     this.img = img;
+    this.userId = userId;
   }
-  static addCourse(data) {
-    const newCourse = new CoursesModel({ id: Date.now().toString(), ...data });
-    courses.push(newCourse);
-    return newCourse;
+
+  static async addCourse(data) {
+    const { title, price, img, userId } = data;
+
+    const newCourse = await pool.query(
+      'INSERT INTO courses (title, price, img, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
+      [title, price, img, userId]
+    );
+    console.log(newCourse);
+    return newCourse.rows[0];
   }
-  static getAll() {
-    return courses;
+
+  static async editCourse(data) {
+    const { id, title, price, img, userId } = data;
+    const updatedCourse = await pool.query(
+      'UPDATE courses SET title = $1, price = $2, img = $3, user_id = $4  WHERE id = $5 RETURNING *',
+      [title, price, img, userId, id]
+    );
+    return updatedCourse.rows[0];
   }
-  static getId(id) {
-    const course = courses.find((el) => el.id === id);
-    return course;
+
+  static async getAll() {
+    const result = await pool.query('SELECT * FROM courses');
+    return result.rows;
+  }
+
+  static async getId(idCourse) {
+    const course = await pool.query('SELECT * FROM courses WHERE id =$1', [
+      idCourse,
+    ]);
+    return course.rows[0];
   }
 }
 

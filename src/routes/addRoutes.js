@@ -44,6 +44,7 @@ const coursesController = require('../controllers/coursesController');
  *                     - title
  *                     - price
  *                     - img
+ *                     - user_id
  *                   properties:
  *                     id:
  *                       type: string
@@ -57,6 +58,10 @@ const coursesController = require('../controllers/coursesController');
  *                     img:
  *                       type: string
  *                       example: "link_picture_course1.svg"
+ *                     user_id:
+ *                       type: string
+ *                       example: "123123"
+ *
  *       '400':
  *         $ref: '#/components/responses/BadRequest'
  *       '500':
