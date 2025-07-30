@@ -1,3 +1,4 @@
+//Контроллер — отвечает за доступ, безопасность, обработку запроса.
 const coursesService = require('../services/coursesService');
 
 function isOwner(course, req) {
@@ -60,9 +61,30 @@ async function edit(req, res, next) {
   }
 }
 
+async function deleteById(req, res, next) {
+  try {
+    const idDeletedCourses = req.body.id;
+    const course = await coursesService.getCourse(idDeletedCourses);
+    const userId = 333; //после JWT - req.user.id;
+
+    if (!isOwner(course, userId)) {
+      res.status(403).json({
+        error: 'Доступ запрещён: вы не являетесь владельцем курса',
+      });
+    }
+
+    const deleteCourse = await coursesService.deleteCourse(idDeletedCourses);
+
+    res.status(200).json({ deleteCourse });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   addNew,
   edit,
+  deleteById,
 };

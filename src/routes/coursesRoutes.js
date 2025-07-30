@@ -96,9 +96,10 @@ router.get('/', coursesController.getAll);
  */
 router.get('/:id', coursesController.getById);
 
-router.get('/:id/edit', coursesController.getById);
+// router.get('/:id/edit', coursesController.getById); //Возможно этот роут избыточен, так как он дублирует /:id
 
 router.post('/edit', coursesController.edit);
-// router.post('/delete', coursesController.deleteCourse);
+
+router.post('/delete', coursesController.deleteById);
 
 module.exports = router;

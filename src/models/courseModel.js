@@ -1,14 +1,6 @@
 const pool = require('../config/db');
 
 class CoursesModel {
-  constructor({ id, title, price, img, userId }) {
-    this.id = id;
-    this.title = title;
-    this.price = price;
-    this.img = img;
-    this.userId = userId;
-  }
-
   static async addCourse(data) {
     const { title, price, img, userId } = data;
 
@@ -16,7 +8,6 @@ class CoursesModel {
       'INSERT INTO courses (title, price, img, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
       [title, price, img, userId]
     );
-    console.log(newCourse);
     return newCourse.rows[0];
   }
 
@@ -38,6 +29,14 @@ class CoursesModel {
     const course = await pool.query('SELECT * FROM courses WHERE id =$1', [
       idCourse,
     ]);
+    return course.rows[0];
+  }
+
+  static async deleteId(idCourse) {
+    const course = await pool.query(
+      'DELETE FROM courses WHERE id =$1 RETURNING *',
+      [idCourse]
+    );
     return course.rows[0];
   }
 }
