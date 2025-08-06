@@ -40,6 +40,7 @@ async function addNew(req, res, next) {
 
 async function edit(req, res, next) {
   try {
+    const id = req.params.id;
     const courseData = req.body;
     const userId = 333; //после JWT - req.user.id;
     if (!isOwner(courseData, userId)) {
@@ -50,6 +51,7 @@ async function edit(req, res, next) {
 
     const editCourseData = {
       userId,
+      id,
       ...courseData,
     };
 
@@ -63,7 +65,7 @@ async function edit(req, res, next) {
 
 async function deleteById(req, res, next) {
   try {
-    const idDeletedCourses = req.body.id;
+    const idDeletedCourses = req.params.id;
     const course = await coursesService.getCourse(idDeletedCourses);
     const userId = 333; //после JWT - req.user.id;
 

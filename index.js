@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const pool = require('./src/config/db');
-const addRoutes = require('./src/routes/addRoutes');
-const coursesRoutes = require('./src/routes/coursesRoutes');
+const apiRoutes = require('./src/routes/api/coursesRoutes.js');
+// const coursesRoutes = require('./src/routes/coursesRoutes');
 const app = express();
 const errorHandler = require('./src/middlewares/errorHandler');
 const swaggerSpec = require('./src/config/swagger');
@@ -12,8 +12,9 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-app.use('/add', addRoutes);
-app.use('/courses', coursesRoutes);
+app.use('/api/courses', apiRoutes);
+// app.use('/add', addRoutes);
+// app.use('/courses', coursesRoutes);
 
 // console.log(JSON.stringify(swaggerSpec, null, 2));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
