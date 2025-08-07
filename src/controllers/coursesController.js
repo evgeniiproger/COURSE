@@ -25,11 +25,11 @@ async function getById(req, res, next) {
 
 async function addNew(req, res, next) {
   try {
-    const courseData = req.body;
+    const course = req.body;
     const userId = 333; //после JWT - req.user.id;
     const newCourseData = {
       userId,
-      ...courseData,
+      ...course,
     };
     const newCourse = await coursesService.addCourse(newCourseData);
     res.status(201).json({ newCourse });
@@ -41,9 +41,9 @@ async function addNew(req, res, next) {
 async function edit(req, res, next) {
   try {
     const id = req.params.id;
-    const courseData = req.body;
+    const course = req.body;
     const userId = 333; //после JWT - req.user.id;
-    if (!isOwner(courseData, userId)) {
+    if (!isOwner(course, userId)) {
       return res.status(403).json({
         error: 'Доступ запрещён: вы не являетесь владельцем курса',
       });
@@ -52,12 +52,12 @@ async function edit(req, res, next) {
     const editCourseData = {
       userId,
       id,
-      ...courseData,
+      ...course,
     };
 
     const updatedCourse = await coursesService.editCourse(editCourseData);
 
-    res.status(201).json({ updatedCourse });
+    res.status(200).json({ updatedCourse });
   } catch (err) {
     next(err);
   }
@@ -65,8 +65,8 @@ async function edit(req, res, next) {
 
 async function deleteById(req, res, next) {
   try {
-    const idDeletedCourses = req.params.id;
-    const course = await coursesService.getCourse(idDeletedCourses);
+    const courseId = req.params.id;
+    const course = await coursesService.getCourse(courseId);
     const userId = 333; //после JWT - req.user.id;
 
     if (!isOwner(course, userId)) {
@@ -75,9 +75,9 @@ async function deleteById(req, res, next) {
       });
     }
 
-    const deleteCourse = await coursesService.deleteCourse(idDeletedCourses);
+    const deletedCourse = await coursesService.deleteCourse(courseId);
 
-    res.status(200).json({ deleteCourse });
+    res.status(204).json({ deletedCourse });
   } catch (err) {
     next(err);
   }
